@@ -1,0 +1,27 @@
+version: "3.1"
+services:
+  web:
+    image: 'ambientum/php:7.0-apache'
+    container_name: ambiente_web
+    links:
+     - mysql:mysql
+    volumes:
+      - .:/var/www/app/
+    ports:
+      - "9000:8080"
+  mysql:
+    image: 'mysql'
+    container_name: ambiente_mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/.mysql/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+  pma:
+    image: 'phpmyadmin/phpmyadmin'
+    container_name: ambiente_pma
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "9001:80"
